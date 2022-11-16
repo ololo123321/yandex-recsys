@@ -1,0 +1,24 @@
+# @package _global_
+training_args:
+  num_train_epochs: 1
+  evaluation_strategy: epoch
+  per_device_train_batch_size: 4
+  per_device_eval_batch_size: 4
+  gradient_accumulation_steps: 1
+  save_total_limit: 1
+  logging_strategy: steps
+  logging_steps: 10
+  fp16: false
+  sharded_ddp: false
+
+model:
+  num_layers: 2
+  num_heads: 2
+  head_dim: 4
+  dff: 32
+  dropout: 0.1
+
+training_dataset:
+  num_negatives: 1
+
+limit: 1000

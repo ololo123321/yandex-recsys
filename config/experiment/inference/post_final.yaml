@@ -1,0 +1,7 @@
+# @package _global_
+
+# public: 0.087251; private: ?
+predictor:
+  torch_mm: true
+  v_path: "/data/V_full_wo_ones.npz"
+  vec_vocab_path: "/data/vec_vocab_full.txt"

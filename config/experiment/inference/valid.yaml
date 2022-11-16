@@ -1,0 +1,7 @@
+# @package _global_
+predictor:
+  test: false
+  count_features_path: "/data/features_valid.txt"
+  limit: 10000
+output_path: "/outputs/predictions_ensemble_valid_final"
+limit: ${predictor.limit}

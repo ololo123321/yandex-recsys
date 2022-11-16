@@ -1,0 +1,34 @@
+# @package _global_
+training_dataset:
+  _target_: src.datasets.TrainingDatasetV1
+  data: null
+  track2id: null
+  num_negatives: 100
+  bos_id: 1
+  unk_id: 2
+
+model:
+  use_pos_emb: true
+  use_track_emb: true
+  use_artist_emb: true
+
+valid_dataset:
+  _target_: src.datasets.ValidDatasetV1
+  data: null
+  track2id: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+
+test_dataset:
+  _target_: src.datasets.TestDatasetV1
+  data: null
+  track2id: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+
+collator:
+  _target_: src.collators.DataCollatorTwoInputsPacked
+  padding_idx: ${model.padding_idx}
+
+trainer_cls:
+  path: src.trainers.TrainerV1

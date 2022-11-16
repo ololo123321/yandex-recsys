@@ -1,0 +1,39 @@
+# @package _global_
+model:
+  use_pos_emb: true
+  use_track_emb: true
+  use_artist_emb: true
+
+training_dataset:
+  _target_: src.datasets.DatasetV2
+  data: null
+  track2id: null
+  bos_id: 1
+  unk_id: 2
+  test: false
+
+valid_dataset:
+  _target_: src.datasets.DatasetV2
+  data: null
+  track2id: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+  test: false
+
+test_dataset:
+  _target_: src.datasets.DatasetV2
+  data: null
+  track2id: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+  test: true
+
+collator:
+  _target_: src.collators.DataCollatorSingleInput
+  padding_idx: ${model.padding_idx}
+
+trainer_cls:
+  path: src.trainers.TrainerV2
+
+trainer_params:
+  num_candidates: 500

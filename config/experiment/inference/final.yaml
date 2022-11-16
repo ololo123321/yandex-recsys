@@ -1,0 +1,35 @@
+# @package _global_
+
+# public: 0.086059; private: 0.086
+predictor:
+  artist_checkpoint_dir_1: "/models/gpt2_artist_v2/checkpoint-90630"
+  artist_checkpoint_dir_2: "/models/gpt2_artist_v2_10epochs_label_smoothing0.1/checkpoint-45310"
+  artist_checkpoint_dir_3: "/models/gpt2_artist_v2_12heads_10epochs/checkpoint-45310"
+  joint_checkpoint_dir_1: "/models/v2_gpt2_tracks_only_10epochs/checkpoint-90630"
+  joint_checkpoint_dir_2: "/models/v2_gpt2_joint_10epochs/checkpoint-90630"
+  joint_checkpoint_dir_3: "/models/v2_gpt2_joint_12heads_10epochs/checkpoint-181260"
+  track_to_artist_path: "/data/track_artists.csv"
+  track_vocab_path: "/data/tracks_vocab.json"
+  artist_vocab_path_joint: "/data/artists_vocab_joint.json"
+  artist_vocab_path: "/data/artists_vocab.json"
+  track_counts_path: "/data/track_counts.json"
+  artist_counts_path: "/data/artist_counts.json"
+  w_artist_1: 0.3
+  w_artist_2: 0.3
+  w_artist_3: 0.4
+  w_joint_1: 0.5
+  w_joint_2: 0.2
+  w_joint_3: 0.3
+  w_artist: 0.5
+  w_joint: 0.5
+  w_ens: 0.9995
+  w_count: 0.0005
+  w_probs_ens: 0.9
+  w_probs_count: 0.1
+  w_scores_track_pair: 0.01
+  add_probs_count: true
+  add_track_pair_counts: true
+  top_k_artists: 100
+  torch_mm: false
+  v_path: "/data/V_50k.npz"
+  vec_vocab_path: "/data/vec_vocab_top_50k.txt"

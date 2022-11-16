@@ -1,0 +1,13 @@
+# @package _global_
+predictor:
+  _target_: src.inference.InferenceWrapperCountBasedV1
+  track_to_artist_path: ???
+  track_counts_path: ???
+  index: "users"
+  track_boost:  2.0
+  num_users_to_retrieve: 100
+  save_candidates_with_scores: false
+  candidates_path: null
+  max_candidates_to_save: 1000
+  log_rank: false
+  add_artist_clause: true

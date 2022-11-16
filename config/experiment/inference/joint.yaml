@@ -1,0 +1,16 @@
+# @package _global_
+predictor:
+  _target_: src.inference.InferenceWrapperJoint
+  artist_model_dir: ???
+  artist_checkpoint_dir: ???
+  joint_model_dir: ???
+  joint_checkpoint_dir: ???
+  track_to_artist_path: ???
+  track_vocab_path: ???
+  artist_vocab_path: ???
+  artist_vocab_path_joint: ${predictor.artist_vocab_path}
+  w_joint: 0.5
+  w_artist: null
+  bos_id: 1
+  unk_id: 2
+  device: "cuda"

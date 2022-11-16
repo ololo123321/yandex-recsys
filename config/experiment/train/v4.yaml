@@ -1,0 +1,46 @@
+# @package _global_
+training_args:
+  metric_for_best_model: accuracy_track
+  per_device_train_batch_size: 8
+
+model:
+  use_pos_emb: false
+  use_track_emb: true
+  use_artist_emb: true
+
+training_dataset:
+  _target_: src.datasets.DatasetV4
+  data: null
+  track2id: null
+  artist2id: null
+  track2artist: null
+  bos_id: 1
+  unk_id: 2
+  test: false
+
+valid_dataset:
+  _target_: src.datasets.DatasetV4
+  data: null
+  track2id: null
+  artist2id: null
+  track2artist: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+  test: false
+
+test_dataset:
+  _target_: src.datasets.DatasetV4
+  data: null
+  track2id: null
+  artist2id: null
+  track2artist: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+  test: true
+
+collator:
+  _target_: src.collators.DataCollatorTwoInputsUnpacked
+  padding_idx: ${model.padding_idx}
+
+trainer_cls:
+  path: src.trainers.TrainerV4

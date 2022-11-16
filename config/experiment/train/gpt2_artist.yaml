@@ -1,0 +1,44 @@
+# @package _global_
+training_args:
+  metric_for_best_model: accuracy
+  per_device_train_batch_size: 32
+
+model:
+  _target_: src.model.GPT2Artist
+  num_special_tokens: 4  # + eos, mandatory attribute
+  use_pos_emb: true
+  activation: gelu_new
+
+training_dataset:
+  _target_: src.datasets.DatasetV3
+  data: null
+  track2artist: null
+  artist2id: null
+  bos_id: 1
+  unk_id: 2
+  test: false
+
+valid_dataset:
+  _target_: src.datasets.DatasetV3
+  data: null
+  track2artist: null
+  artist2id: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+  test: false
+
+test_dataset:
+  _target_: src.datasets.DatasetV3
+  data: null
+  track2artist: null
+  artist2id: null
+  bos_id: ${training_dataset.bos_id}
+  unk_id: ${training_dataset.unk_id}
+  test: true
+
+collator:
+  _target_: src.collators.DataCollatorSingleInput
+  padding_idx: ${model.padding_idx}
+
+trainer_cls:
+  path: src.trainers.TrainerV3
