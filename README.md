@@ -1,7 +1,7 @@
 3rd place solution in Yandex Cup 2022 - ML RecSys.
 
-* load data: [url, todo]
-* load models: [url, todo]
+* load [data](https://disk.yandex.ru/d/v_Tihf04KPDnzw)
+* load [models](https://disk.yandex.ru/d/A4aPblAnXUtBGg)
 * put data in `/data`, models - in `/models`
 * run inference script:
     ```

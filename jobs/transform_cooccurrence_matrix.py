@@ -18,7 +18,7 @@ if __name__ == "__main__":
     d = 1 / X.diagonal() ** 0.5
 
     print("normalize")
-    X = X.multiply(d[None, :]).multiply(d[:, None])
+    X = X.multiply(d[None, :]).multiply(d[:, None]).tocsr()
 
     print("save")
     np.savez(args.output_path, data=X.data, indices=X.indices, indptr=X.indptr, shape=X.shape)

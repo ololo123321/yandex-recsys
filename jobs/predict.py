@@ -14,7 +14,7 @@ logger = logging.getLogger("predict")
 def main(cfg: DictConfig):
     print(OmegaConf.to_yaml(cfg))
 
-    logger.info("loading train data...")
+    logger.info("loading test data...")
     test_data = []
     with open(cfg.input_path) as f:
         for line in tqdm.tqdm(f):
