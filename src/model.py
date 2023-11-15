@@ -265,7 +265,7 @@ class MHAWithRelativeEmbeddings(nn.Module):
         d_model = num_heads * head_dim
         self.dense_input = nn.Linear(d_model, d_model * 3)
 
-        w = torch.zeros((max_length, max_length, head_dim))
+        w = torch.zeros(num_heads, max_length * 2 + 1, head_dim)
         w = fill_emb_matrix(w, head_dim)
         self.R = nn.Parameter(w)
 
@@ -287,11 +287,16 @@ class MHAWithRelativeEmbeddings(nn.Module):
 
         dot_product_term = torch.matmul(q, k.transpose(2, 3))  # [N, H, T, T]
 
-        q = q.permute(2, 0, 1, 3)  # [T, N, H, D]
-        q = q.reshape(-1, batch_size * self.num_heads, self.head_dim)  # [T, N * H, D]
-        x = torch.matmul(q, self.R[:max_length, :max_length].transpose(1, 2))  # [T, N * H, T]
-        x = x.transpose(0, 1)  # [N * H, T, T]
-        relative_term = x.reshape(batch_size, -1, max_length, max_length)  # [N, H, T, T]
+        indices_q = torch.arange(x.shape[0])  # [Tq]
+        indices_k = torch.arange(x.shape[0])  # [Tk]
+        relative_positions = indices_k[None, :] - indices_q[:, None]  # [Tq, Tk]
+        # (-inf, inf) -> [-max_length, max_length] -> [0, 2 * max_length]
+        relative_positions = torch.clamp(
+            relative_positions, -self.max_length, self.max_length
+        ) + self.max_length  # [Tq, Tk]
+        r = self.R[:, relative_positions, :]  # [H, Tq, Tk, d]
+        # [Tq, H, N, d] @ [Tq, H, d, Tk] = [Tq, H, N, Tk] --transpose(0, 2)--> [N, H, Tq, Tk]
+        relative_term = torch.matmul(q.permute(2, 1, 0, 3), r.permute(1, 0, 3, 2)).transpose(0, 2)
 
         logits = dot_product_term + relative_term  # [N, H, T, T]
 
